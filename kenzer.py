@@ -1075,7 +1075,6 @@ class Kenzer(object):
         self.webenum()
         self.headenum()
         self.dnsenum()
-        self.conenum()
         self.subscan()
         self.idscan()
         self.favscan()
@@ -1083,6 +1082,7 @@ class Kenzer(object):
         self.cvescan()
         self.vulnscan()
         # experimental ones
+        # self.conenum()
         # self.repenum()
         # self.socenum()
         # self.portscan()
@@ -1102,7 +1102,7 @@ class Kenzer(object):
 
     # synchronizes the local kenzerdb with github
     def sync(self):
-        os.system("cd {0} && git remote set-url origin https://{1}@github.com/{2}/{3}.git && git pull && cd ../scripts && bash generate.sh && cd .. && git add . && git commit -m \"{4}\" && git push".format(
+        os.system("cd {0} && git remote set-url origin https://{1}@github.com/{2}/{3}.git && git pull && cd ../scripts && bash remove_logs.sh && bash generate.sh && cd .. && git add . && git commit -m \"{4}\" && git push".format(
             _kenzerdb, _github, _user, _repo, _BotMail+"("+str(datetime.utcnow())+")"))
         self.sendMessage("[synced]")
         return

@@ -371,7 +371,7 @@ class Enumerator:
         if(os.path.exists(output)):
             os.system("rm {0}".format(output))
         os.system(
-            "cat {0}/kiterunner.log | grep {1} | sort -u > {2} ".format(path, domain, output))
+            "cat {0}/kiterunner.log | grep '] http' | sort -u > {1} ".format(path, output))
         line = 0
         if(os.path.exists(output)):
             with open(output, encoding="ISO-8859-1") as f:

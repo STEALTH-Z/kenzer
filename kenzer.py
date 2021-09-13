@@ -246,7 +246,6 @@ class Kenzer(object):
                 _BotMail.split("@")[0]).split()
             self.hunt()
             self.monitor.normalize()
-            self.monitor.reinitialize()
             self.sendMessage(
                 "[autohunt - ({0}%)]".format(int(i/freq*100)))
             if _sync == "True":
@@ -1125,8 +1124,6 @@ class Kenzer(object):
         if self.sender_email == _BotMail:
             return
         try:
-            if _sync == "True":
-                self.sync()
             if len(content) > 1 and content[0].lower() == "@**{0}**".format(_BotMail.split('@')[0].replace("-bot", "")):
                 if content[1].lower() == "man":
                     if len(content) == 2:
@@ -1240,8 +1237,6 @@ class Kenzer(object):
                     message = self.chatbot.get_response(' '.join(self.content))
                     message = message.serialize()['text']
                     self.sendMessage(message)
-            if _sync == "True":
-                self.sync()
         except Exception as exception:
             self.sendMessage("[exception] {0}:{1}".format(
                 type(exception).__name__, str(exception)))

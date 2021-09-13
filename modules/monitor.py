@@ -106,6 +106,7 @@ class Monitor:
         self.norm_cscan()
         self.norm_vulnscan()
         self.norm_buckscan()
+        self.reinitialize()
         return
 
     # normalizes subenum

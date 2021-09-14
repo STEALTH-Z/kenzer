@@ -712,8 +712,8 @@ class Kenzer(object):
             display = ""
             if(len(severity) > 0):
                 display = "({0})".format(severity)
-            self.sendMessage("[cscan{2} - ({0}%)] {1}".format(i-1,
-                                                              len(self.content)-2, self.content[i].lower(), display))
+            self.sendMessage("[cscan{2} - ({0}%)] {1}".format(
+                int((i-1)/(len(self.content)-2)*100), self.content[i].lower(), display))
             self.scan = scanner.Scanner(
                 self.content[i].lower(), _kenzerdb, dtype, _kenzer, severity)
             self.mergekenz(self.content[i].lower())

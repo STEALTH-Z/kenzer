@@ -1,6 +1,9 @@
 # imports
 import os
 import tldextract
+from datetime import datetime
+import timeago
+import json
 
 # monitor
 
@@ -30,12 +33,45 @@ class Monitor:
             os.system("certex -d {0} -o {1} &".format(domains, output))
         return
 
+    # initializes timestamps using zstamp
+    def timestamp(self):
+        path = self.path
+        inp = path+"/subenum.mon"
+        out = path+"/zstamp.log"
+        if(os.path.exists(out)):
+            os.system("rm "+out)
+        os.system("zstamp -l {0} -o {1}".format(inp, out))
+        inp = out
+        out = path+"/zstamp.mon"
+        if(os.path.exists(out) == False):
+            os.system("cp {0} {1}".format(inp, out))
+        with open(inp, 'r', encoding="ISO-8859-1") as f:
+            current = json.load(f)
+        with open(out, 'r', encoding="ISO-8859-1") as f:
+            past = json.load(f)
+        ilist = []
+        for dom in list(current.keys()):
+            if dom not in list(past.keys()):
+                past[dom] = current[dom]
+                ilist.append(dom)
+            else:
+                ago = timeago.format(datetime.strptime(past[dom], "%Y-%m-%d %H:%M:%S.%f"), datetime.strptime(current[dom], "%Y-%m-%d %H:%M:%S.%f"))
+                if ("day" in ago.split(" ")[1] and int(ago.split(" ")[0]) >= 3):
+                    past[dom] = current[dom]
+                    ilist.append(dom)
+        with open(out, 'w') as f:
+            json.dump(past, f, sort_keys=True, indent=2)
+        out = path+"/subenum.mon"
+        with open(out, 'w', encoding="ISO-8859-1") as f:
+            f.writelines("%s\n" % line for line in ilist)
+
     # initialize automated hunt
     def initialize(self):
         path = self.path
         inp = path+"/certex.mon"
         out = path+"/subenum.mon"
         os.system("mv {0} {1}".format(inp, out))
+        self.timestamp()
 
     # reinitialize automated hunt
     def reinitialize(self):

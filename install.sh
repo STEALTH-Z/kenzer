@@ -11,6 +11,7 @@ if getopts "b" arg; then
   git clone https://github.com/ARPSyndicate/kenzer-bin.git
 fi
 git clone https://github.com/ARPSyndicate/kenzer-templates.git
+git clone https://github.com/ARPSyndicate/freakerdb.git
 sudo cp kenzer-bin/* /usr/bin/
 cd ..
 pip3 install -U -r requirements.txt

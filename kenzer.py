@@ -58,7 +58,7 @@ class Kenzer(object):
 
     # initializations
     def __init__(self):
-        print(BLUE+"KENZER[3.28] by ARPSyndicate"+CLEAR)
+        print(BLUE+"KENZER[3.29] by ARPSyndicate"+CLEAR)
         print(YELLOW+"automated web assets enumeration & scanning"+CLEAR)
         self.client = zulip.Client(email=_BotMail, site=_Site, api_key=_APIKey)
         self.upload = False
@@ -75,7 +75,7 @@ class Kenzer(object):
         self.trainer.train("chatterbot.corpus.english")
         time.sleep(2)
         self.modules = ["monitor", "program", "blacklist", "whitelist", "subenum", "repenum", "webenum", "servenum", "urlheadenum", "headenum", "socenum", "conenum", "dnsenum", "portenum", "asnenum", "urlenum", "favscan",
-                        "cscan", "idscan", "subscan", "cvescan", "vulnscan", "portscan", "urlcvescan", "urlvulnscan", "endscan", "buckscan", "vizscan", "enum", "scan", "recon", "hunt", "sync"]
+                        "cscan", "idscan", "subscan", "cvescan", "vulnscan", "portscan", "urlcvescan", "urlvulnscan", "endscan", "buckscan", "vizscan", "enum", "scan", "recon", "hunt", "sync", "freaker"]
         print(YELLOW+"[*] KENZER is online"+CLEAR)
         print(
             YELLOW+"[*] {0} modules up & running".format(len(self.modules))+CLEAR)
@@ -92,7 +92,7 @@ class Kenzer(object):
 
     # manual
     def man(self):
-        message = "**KENZER[3.28]**\n"
+        message = "**KENZER[3.29]**\n"
         message += "**KENZER modules**\n"
         message += "`blacklist <target>,<regex>` - initializes & removes blacklisted targets\n"
         message += "`whitelist <target>,<regex>` - initializes & keeps only whitelisted targets\n"
@@ -132,7 +132,8 @@ class Kenzer(object):
         message += "`monitor db` - monitors ct logs for domains in summary/domain.txt\n"
         message += "`monitor autohunt <frequency(default=5)>` - starts automated hunt while monitoring\n"
         message += "`sync` - synchronizes the local kenzerdb with github\n"
-        message += "`kenzer <module>` - runs a specific modules\n"
+        message += "`freaker <module>` - runs freaker module\n"
+        message += "`kenzer <module>` - runs a specific module\n"
         message += "`kenzer man` - shows this manual\n"
         message += "or you can just interact with chatterbot\n"
         self.sendMessage(message)
@@ -1098,6 +1099,13 @@ class Kenzer(object):
         self.enumall()
         self.scanall()
         return
+    
+    # runs freaker module
+    def freaker(self):
+        for i in range(2, len(self.content)):
+            os.system("freaker -c {0} -r {1}".format("configs/freaker.yaml", self.content[i]))
+            self.sendMessage(
+                "[freaker - ({0}%)] {1}".format(int((i-1)/(len(self.content)-2)*100), self.content[i]))
 
     # synchronizes the local kenzerdb with github
     def sync(self):
@@ -1228,6 +1236,8 @@ class Kenzer(object):
                     self.recon()
                 elif content[1].lower() == "sync":
                     self.sync()
+                elif content[1].lower() == "freaker":
+                    self.freaker()
                 elif content[1].lower() == "upgrade":
                     self.upgrade()
                 elif content[1].lower() == "upload":

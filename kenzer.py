@@ -58,7 +58,7 @@ class Kenzer(object):
 
     # initializations
     def __init__(self):
-        print(BLUE+"KENZER[3.29] by ARPSyndicate"+CLEAR)
+        print(BLUE+"KENZER[3.30] by ARPSyndicate"+CLEAR)
         print(YELLOW+"automated web assets enumeration & scanning"+CLEAR)
         self.client = zulip.Client(email=_BotMail, site=_Site, api_key=_APIKey)
         self.upload = False
@@ -92,7 +92,7 @@ class Kenzer(object):
 
     # manual
     def man(self):
-        message = "**KENZER[3.29]**\n"
+        message = "**KENZER[3.30]**\n"
         message += "**KENZER modules**\n"
         message += "`blacklist <target>,<regex>` - initializes & removes blacklisted targets\n"
         message += "`whitelist <target>,<regex>` - initializes & keeps only whitelisted targets\n"

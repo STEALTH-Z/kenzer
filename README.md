@@ -15,12 +15,13 @@
 
 ## Instructions for running
 
+0. Run `git clone https://github.com/ARPSyndicate/kenzer /root/kenzer && cd /root/kenzer` **(preferred)**<br>
 1. Create an account on [Zulip](https://zulipchat.com)<br>
 2. Navigate to `Settings > Your Bots > Add a new bot`<br>
 3. Create a new generic bot named `kenzer`<br>
 4. Add all the configurations in `configs/kenzer.conf`<br>
 5. Install/Run using - <br>
-   - `./install.sh -b` [if you need `kenzer-compatible` binaries to be installed]<br>
+   - `./install.sh -b` [if you need `kenzer-compatible` binaries to be installed] **(preferred)**<br>
    - `./install.sh` [if you do not need `kenzer-compatible` binaries to be installed]<br>
    - `./run.sh` [if you do not need installation at all]<br>
    - `./service.sh` [initialize it as a service post-installation] **(preferred)**<br>

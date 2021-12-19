@@ -56,7 +56,7 @@ class Monitor:
                 ilist.append(dom)
             else:
                 ago = timeago.format(datetime.strptime(past[dom], "%Y-%m-%d %H:%M:%S.%f"), datetime.strptime(current[dom], "%Y-%m-%d %H:%M:%S.%f"))
-                if ("day" in ago.split(" ")[1] and int(ago.split(" ")[0]) >= 3):
+                if ("day" in ago.split(" ")[1] and int(ago.split(" ")[0]) >= 6):
                     past[dom] = current[dom]
                     ilist.append(dom)
         with open(out, 'w') as f:
@@ -94,7 +94,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/monitor.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(subdomain)
                 os.system(
@@ -161,7 +161,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/subenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(subdomain)
                 os.system(
@@ -187,7 +187,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/portenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(subdomain)
                 os.system(
@@ -213,7 +213,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/webenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(subdomain)
                 os.system(
@@ -240,7 +240,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/headenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -267,7 +267,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/asnenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -294,7 +294,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/dnsenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -321,7 +321,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/favscan.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -348,7 +348,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/conenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -375,7 +375,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/servenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -402,7 +402,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/repenum.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -429,7 +429,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/idscan.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -456,7 +456,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/vulnscan.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -483,7 +483,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/subscan.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -510,7 +510,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/cscan.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -537,7 +537,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/cvescan.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(
@@ -564,7 +564,7 @@ class Monitor:
                 domain = "{}.{}".format(extracted.domain, extracted.suffix)
                 destination = kenzerdb+domain
                 if not os.path.exists(destination):
-                    os.makedirs(destination)
+                    continue
                 with open(destination+"/buckscan.kenz", 'a', encoding="ISO-8859-1") as f:
                     f.write(data)
                 os.system(

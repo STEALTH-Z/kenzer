@@ -58,7 +58,7 @@ class Kenzer(object):
 
     # initializations
     def __init__(self):
-        print(BLUE+"KENZER[3.30] by ARPSyndicate"+CLEAR)
+        print(BLUE+"KENZER[3.31] by ARPSyndicate"+CLEAR)
         print(YELLOW+"automated web assets enumeration & scanning"+CLEAR)
         self.client = zulip.Client(email=_BotMail, site=_Site, api_key=_APIKey)
         self.upload = False
@@ -92,7 +92,7 @@ class Kenzer(object):
 
     # manual
     def man(self):
-        message = "**KENZER[3.30]**\n"
+        message = "**KENZER[3.31]**\n"
         message += "**KENZER modules**\n"
         message += "`blacklist <target>,<regex>` - initializes & removes blacklisted targets\n"
         message += "`whitelist <target>,<regex>` - initializes & keeps only whitelisted targets\n"
@@ -223,7 +223,7 @@ class Kenzer(object):
 
     # monitors ct logs
     def monitor(self):
-        self.sendMessage("[monitoring]")
+        self.sendMessage("[monitor - running in background]")
         self.monitor = monitor.Monitor(_kenzerdb, " ".join(self.content[2:]))
         self.monitor.certex()
         return
@@ -233,7 +233,7 @@ class Kenzer(object):
         domfile = _kenzerdb+"../summary/domain.txt"
         with open(domfile) as f:
             line = len(f.readlines())
-        self.sendMessage("[monitoring]")
+        self.sendMessage("[monitor - running in background]")
         self.monitor = monitor.Monitor(_kenzerdb)
         self.monitor.certex()
         return
@@ -1103,12 +1103,12 @@ class Kenzer(object):
     # runs freaker module
     def freaker(self):
         for i in range(2, len(self.content)):
-            os.system("freaker -c {0} -r {1}".format("configs/freaker.yaml", self.content[i]))
-            self.sendMessage(
-                "[freaker - ({0}%)] {1}".format(int((i-1)/(len(self.content)-2)*100), self.content[i]))
+            os.system("freaker -c {0} -r {1} &".format("configs/freaker.yaml", self.content[i]))
+            self.sendMessage("[freaker - running in background]")
 
     # synchronizes the local kenzerdb with github
     def sync(self):
+        os.system("rm {0}/../.git/index.lock")
         os.system("cd {0} && git remote set-url origin https://{1}@github.com/{2}/{3}.git && git pull && cd ../scripts && bash remove_logs.sh && bash generate.sh && cd .. && git add . && git commit -m \"{4}\" && git push".format(
             _kenzerdb, _github, _user, _repo, _BotMail+"("+str(datetime.utcnow())+")"))
         self.sendMessage("[synced]")

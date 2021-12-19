@@ -9,3 +9,4 @@ validators
 pytz
 ipaddress
 timeago
+dnsgen

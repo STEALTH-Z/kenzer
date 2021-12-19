@@ -117,17 +117,14 @@ class Enumerator:
     def subenum(self):
         self.subfinder()
         self.shuffledns()
-        # not reliable for now
-        # self.amass()
+        self.amass()
+        self.dnsgen()
         domain = self.domain
         path = self.path
         output = path+"/subenum.kenz"
-        # not useful for now
-        # if(os.path.exists(output)):
-        #    self.shuffsolv(output, domain)
         os.system("mv {0} {0}.old".format(output))
         os.system(
-            "cat {0}/amass.log {0}/subfinder.log {0}/subenum.kenz.old {0}/shuffledns.log | sort -u > {1}".format(path, output))
+            "cat {0}/amass.log {0}/subfinder.log {0}/subenum.kenz.old {0}/shuffledns.log {0}/dnsgen.log | sort -u > {1}".format(path, output))
         self.blacklist()
         self.whitelist()
         line = 0
@@ -456,10 +453,21 @@ class Enumerator:
         os.system("rm {0} && mv {1} {0}".format(output, path+"/shuffsolv.log"))
         return
 
+    # enumerates subdomains using dnsgen
+    def dnsgen(self):
+        domain = self.domain
+        path = self.path
+        output = path+"/dnsgen.log"
+        os.system(
+            "cat {0}/amass.log {0}/subfinder.log {0}/subenum.kenz.old {0}/shuffledns.log | sort -u | dnsgen - > {1}".format(path, output))
+        self.shuffsolv(output, domain)
+        os.system("rm {0} && mv {1} {0}".format(output, path+"/shuffsolv.log"))
+        return
+        
     # probes for web servers using httpx
     def httpx(self, domains, output, extras=""):
         os.system(
-            "httpx {2} -no-color -l {0} -threads 80 -retries 3 -timeout 10 -verbose -o {1}".format(domains, output, extras))
+            "httpx {2} -no-color -l {0} -threads 80 -retries 2 -timeout 7 -verbose -o {1}".format(domains, output, extras))
         return
 
     # enumerates files & directories using kiterunner

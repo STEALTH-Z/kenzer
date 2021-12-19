@@ -29,8 +29,7 @@ class Scanner:
         severity = ""
         if len(self.severity) > 0:
             severity = "/"+self.severity
-        # os.system("nuclei -project -project-path {4}/nuclei -stats -retries 2 -t {3}nuclei/{0}{5} -timeout 10 -l {1} -o {2}".format(template, hosts, output, self.templates, self.path, severity))
-        os.system("nuclei -stats -retries 2 -t {3}nuclei/{0}{5} -timeout 10 -l {1} -o {2}".format(template, hosts, output, self.templates, self.path, severity))
+        os.system("nuclei -project -project-path {4}/nuclei -stats -retries 2 -t {3}nuclei/{0}{5} -timeout 8 -l {1} -o {2}".format(template, hosts, output, self.templates, self.path, severity))
         return
 
     # runs jaeles
@@ -38,7 +37,7 @@ class Scanner:
         severity = ""
         if len(self.severity) > 0:
             severity = self.severity
-        os.system("jaeles scan --retry 2 --no-background -c 50 --rootDir {3}jaeles/ -s {3}jaeles/{0}/{5} --timeout 10 -U {1} -O {2} -o {4}/jaeles --no-db --chunk true ".format(
+        os.system("jaeles scan --retry 2 --no-background -c 70 --rootDir {3}jaeles/ -s {3}jaeles/{0}/{5} --timeout 8 -U {1} -O {2} -o {4}/jaeles --no-db --chunk true ".format(
             template, hosts, output, self.templates, self.path, self.severity))
         return
 

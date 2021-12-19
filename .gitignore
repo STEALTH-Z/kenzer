@@ -4,3 +4,4 @@ __pycache__
 kenzer.log
 resources
 kenzerdb
+.DS_Store

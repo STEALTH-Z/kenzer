@@ -37,6 +37,7 @@
 > - `program <target>,<link>` - initializes the program to which target belongs
 > - `subenum <target>` - enumerates subdomains
 > - `repenum <target>` - enumerates reputation of subdomains
+> - `repoenum <target>` - enumerates github repositories
 > - `portenum <target>` - enumerates open ports
 > - `servenum <target>` - enumerates services
 > - `webenum <target>` - enumerates webservers
@@ -48,6 +49,7 @@
 > - `urlenum <target>` - enumerates urls
 > - `socenum <target>` - enumerates social media accounts
 > - `subscan <target>` - hunts for subdomain takeovers
+> - `reposcan <target>` - scans github repositories for api key leaks
 > - `cscan[-<severity>] <target>` - scan with customized templates
 > - `cvescan[-<severity>] <target>` - hunts for CVEs
 > - `vulnscan[-<severity>] <target>` - hunts for other common vulnerabilites

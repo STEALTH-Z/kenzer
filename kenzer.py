@@ -58,7 +58,7 @@ class Kenzer(object):
 
     # initializations
     def __init__(self):
-        print(BLUE+"KENZER[3.31] by ARPSyndicate"+CLEAR)
+        print(BLUE+"KENZER[3.32] by ARPSyndicate"+CLEAR)
         print(YELLOW+"automated web assets enumeration & scanning"+CLEAR)
         self.client = zulip.Client(email=_BotMail, site=_Site, api_key=_APIKey)
         self.upload = False
@@ -74,8 +74,8 @@ class Kenzer(object):
         time.sleep(2)
         self.trainer.train("chatterbot.corpus.english")
         time.sleep(2)
-        self.modules = ["monitor", "program", "blacklist", "whitelist", "subenum", "repenum", "webenum", "servenum", "urlheadenum", "headenum", "socenum", "conenum", "dnsenum", "portenum", "asnenum", "urlenum", "favscan",
-                        "cscan", "idscan", "subscan", "cvescan", "vulnscan", "portscan", "urlcvescan", "urlvulnscan", "endscan", "buckscan", "vizscan", "enum", "scan", "recon", "hunt", "sync", "freaker"]
+        self.modules = ["monitor", "program", "blacklist", "whitelist", "subenum", "repenum", "repoenum", "webenum", "servenum", "urlheadenum", "headenum", "socenum", "conenum", "dnsenum", "portenum", "asnenum", "urlenum", "favscan",
+                        "cscan", "idscan", "subscan", "cvescan", "vulnscan", "reposcan", "portscan", "urlcvescan", "urlvulnscan", "endscan", "buckscan", "vizscan", "enum", "scan", "recon", "hunt", "sync", "freaker"]
         print(YELLOW+"[*] KENZER is online"+CLEAR)
         print(
             YELLOW+"[*] {0} modules up & running".format(len(self.modules))+CLEAR)
@@ -92,13 +92,14 @@ class Kenzer(object):
 
     # manual
     def man(self):
-        message = "**KENZER[3.31]**\n"
+        message = "**KENZER[3.32]**\n"
         message += "**KENZER modules**\n"
         message += "`blacklist <target>,<regex>` - initializes & removes blacklisted targets\n"
         message += "`whitelist <target>,<regex>` - initializes & keeps only whitelisted targets\n"
         message += "`program <target>,<link>` - initializes the program to which target belongs\n"
         message += "`subenum <target>` - enumerates subdomains\n"
         message += "`repenum <target>` - enumerates reputation of subdomains\n"
+        message += "`repoenum <target>` - enumerates github repositories\n"
         message += "`portenum <target>` - enumerates open ports\n"
         message += "`servenum <target>` - enumerates services\n"
         message += "`webenum <target>` - enumerates webservers\n"
@@ -110,6 +111,7 @@ class Kenzer(object):
         message += "`urlenum <target>` - enumerates urls\n"
         message += "`socenum <target>` - enumerates social media accounts\n"
         message += "`subscan <target>` - hunts for subdomain takeovers\n"
+        message += "`reposcan <target>` - scans github repositories for api key leaks\n"
         message += "`cscan[-<severity>] <target>` - scan with customized templates\n"
         message += "`cvescan[-<severity>] <target>` - hunts for CVEs\n"
         message += "`vulnscan[-<severity>] <target>` - hunts for other common vulnerabilites\n"
@@ -612,6 +614,32 @@ class Kenzer(object):
                 self.splitkenz(self.content[i].lower())
         return
 
+    # enumerates github repositories
+    def repoenum(self):
+        for i in range(2, len(self.content)):
+            dtype = True
+            if(validators.domain(self.content[i].lower()) != True):
+                self.sendMessage("[invalid] {0}".format(
+                    self.content[i].lower()))
+                continue
+            self.sendMessage(
+                "[repoenum - ({0}%)] {1}".format(int((i-1)/(len(self.content)-2)*100), self.content[i].lower()))
+            self.enum = enumerator.Enumerator(
+                self.content[i].lower(), _kenzerdb, _kenzer, dtype)
+            self.mergekenz(self.content[i].lower())
+            message = self.enum.repoenum(_github)
+            self.sendMessage("[repoenum - ({0}%) - {1}] {2}".format(
+                int((i-1)/(len(self.content)-2)*100), message, self.content[i].lower()))
+            if self.upload:
+                file = "repoenum.kenz"
+                self.uploader(self.content[i], file)
+            if _logging == "False":
+                self.remlog(self.content[i].lower())
+            if _splitting == "True":
+                self.splitkenz(self.content[i].lower())
+        return
+
+
     # enumerates urls
     def urlenum(self):
         for i in range(2, len(self.content)):
@@ -879,6 +907,32 @@ class Kenzer(object):
                 self.remlog(self.content[i].lower())
         return
 
+    # scans github repositories for api key leaks
+    def reposcan(self):
+        for i in range(2, len(self.content)):
+            dtype = True
+            if(validators.domain(self.content[i].lower()) != True):
+                self.sendMessage("[invalid] {0}".format(
+                    self.content[i].lower()))
+                continue
+            display = ""
+            self.sendMessage("[reposcan - ({0}%)] {1}".format(
+                int((i-1)/(len(self.content)-2)*100), self.content[i].lower()))
+            self.scan = scanner.Scanner(
+                self.content[i].lower(), _kenzerdb, dtype, _kenzer)
+            self.mergekenz(self.content[i].lower())
+            message = self.scan.reposcan()
+            self.sendMessage("[reposcan - ({0}%) - {1}] {2}".format(
+                int((i-1)/(len(self.content)-2)*100), message, self.content[i].lower()))
+            if self.upload:
+                file = "reposcan.kenz"
+                self.uploader(self.content[i], file)
+            if _logging == "False":
+                self.remlog(self.content[i].lower())
+            if _splitting == "True":
+                self.splitkenz(self.content[i].lower())
+        return
+
     # hunts for vulnerablities in custom endpoints
     def endscan(self, severity=""):
         for i in range(2, len(self.content)):
@@ -1036,6 +1090,7 @@ class Kenzer(object):
     # runs all enumeration modules
     def enumall(self):
         self.subenum()
+        self.repoenum()
         self.asnenum()
         self.portenum()
         self.servenum()
@@ -1058,6 +1113,7 @@ class Kenzer(object):
         self.buckscan()
         self.cvescan()
         self.vulnscan()
+        self.reposcan()
         self.vizscan()
         self.portscan()
         # experimental ones
@@ -1066,7 +1122,7 @@ class Kenzer(object):
         # self.endscan()
         return
 
-    # define your custom workflow
+    # define your custom workflow - used while autohunt
     def hunt(self):
         self.subenum()
         self.asnenum()
@@ -1082,12 +1138,14 @@ class Kenzer(object):
         self.cvescan()
         self.vulnscan()
         # experimental ones
+        # self.repoenum()
         # self.conenum()
         # self.repenum()
         # self.socenum()
         # self.portscan()
         # self.vizscan()
         # self.urlenum()
+        # self.reposcan()
         # self.urlheadenum()
         # self.urlcvescan()
         # self.urlvulnscan()
@@ -1161,6 +1219,8 @@ class Kenzer(object):
                     self.subenum()
                 elif content[1].lower() == "repenum":
                     self.repenum()
+                elif content[1].lower() == "repoenum":
+                    self.repoenum()
                 elif content[1].lower() == "webenum":
                     self.webenum()
                 elif content[1].lower() == "servenum":
@@ -1212,6 +1272,8 @@ class Kenzer(object):
                         self.urlvulnscan()
                 elif content[1].lower() == "portscan":
                     self.portscan()
+                elif content[1].lower() == "reposcan":
+                    self.reposcan()
                 elif content[1].split("-")[0].lower() == "endscan":
                     if len(content[1].split("-")) > 1:
                         self.endscan(content[1].split("-")[1].lower())

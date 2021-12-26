@@ -52,7 +52,7 @@ class Enumerator:
         output = path+"/blacklist.kenz"
         files = []
         for x in os.listdir(path):
-            if x.endswith(".kenz") and x not in ["blacklist.kenz", "whitelist.kenz", "program.kenz"]:
+            if x.endswith(".kenz") and x not in ["blacklist.kenz", "whitelist.kenz", "program.kenz", "repoenum.kenz", "reposcan.kenz", "portscan.kenz", "vizscan.kenz"]:
                 files.append(x)
         blacklists = []
         if(len(blacklist) > 0):
@@ -86,7 +86,7 @@ class Enumerator:
         output = path+"/whitelist.kenz"
         files = []
         for x in os.listdir(path):
-            if x.endswith(".kenz") and x not in ["blacklist.kenz", "whitelist.kenz", "program.kenz"]:
+            if x.endswith(".kenz") and x not in ["blacklist.kenz", "whitelist.kenz", "program.kenz", "repoenum.kenz", "reposcan.kenz", "portscan.kenz", "vizscan.kenz"]:
                 files.append(x)
         whitelists = []
         if(len(whitelist) > 0):
@@ -196,7 +196,6 @@ class Enumerator:
         return line
 
     # enumerates additional information for urls
-
     def urlheadenum(self):
         domain = self.domain
         path = self.path
@@ -228,6 +227,20 @@ class Enumerator:
             "cat {0}/urlenum.kenz.old {0}/gau.log {0}/giturl.log {0}/gospider.log | grep \"{2}\" | sort -u> {1}".format(path, output, domain))
         self.blacklist()
         self.whitelist()
+        line = 0
+        if(os.path.exists(output)):
+            with open(output, encoding="ISO-8859-1") as f:
+                line = len(f.readlines())
+        return line
+
+    # enumerates github repositories using RepoHunt
+    def repoenum(self, github):
+        domain = self.domain
+        path = self.path
+        output = path+"/repoenum.kenz"
+        if(os.path.exists(output)):
+            os.system("rm {0}".format(output))
+        os.system("repohunt -o {1} -v -k {2} -t {0}".format(github, output, domain))
         line = 0
         if(os.path.exists(output)):
             with open(output, encoding="ISO-8859-1") as f:

@@ -244,6 +244,24 @@ class Scanner:
             with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         return line
+    
+    # scans github repositories for api key leaks
+    def reposcan(self):
+        domain = self.domain
+        path = self.path
+        out = path+"/reposcan.kenz"
+        subs = path+"/repoenum.kenz"
+        if(os.path.exists(subs) == False):
+            return("!repoenum")
+        if(os.path.exists(out)):
+            os.system("rm {0}".format(out))
+        os.system(
+            "mkdir reposcan && cd reposcan && for repo in `cat {0}`; do trufflehog $repo --json --regex | jq \".\" > \"$(echo $repo|cut -d\"/\" -f 4,5|tr \"/\" \"@\").json\" ; done && cat *.json > {1}".format(subs, out))
+        line = 0
+        if(os.path.exists(out)):
+            with open(subs, encoding="ISO-8859-1") as f:
+                line = len(f.readlines())
+        return line
 
     # fingerprints probed servers using nuclei & jaeles
     def idscan(self):

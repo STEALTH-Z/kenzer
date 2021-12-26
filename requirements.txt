@@ -10,3 +10,4 @@ pytz
 ipaddress
 timeago
 dnsgen
+trufflehog

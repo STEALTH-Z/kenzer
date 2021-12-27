@@ -532,7 +532,7 @@ class Enumerator:
         os.system("rm {0}/*.log*".format(self.path))
         os.system("rm {0}/*.old*".format(self.path))
         os.system(
-            "rm -r {0}/nuclei {0}/jaeles {0}/passive-jaeles {0}/nxscan {0}/gocrawler".format(self.path))
+            "rm -r {0}/nuclei {0}/jaeles {0}/passive-jaeles {0}/nxscan {0}/gocrawler {0}/reposcan".format(self.path))
         os.system("find {0} -type f -empty -delete".format(self.path))
         return
 

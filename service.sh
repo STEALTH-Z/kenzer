@@ -1,1 +1,1 @@
-sudo servx -n "Kenzer" -c "cd /root/kenzer/ && ./run.sh" -e
+sudo servx -n "kenzer" -c "cd /root/kenzer/ && ./run.sh" -e

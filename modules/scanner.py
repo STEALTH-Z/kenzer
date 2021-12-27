@@ -256,7 +256,7 @@ class Scanner:
         if(os.path.exists(out)):
             os.system("rm {0}".format(out))
         os.system(
-            "mkdir reposcan && cd reposcan && for repo in `cat {0}`; do trufflehog $repo --json --regex | jq \".\" > \"$(echo $repo|cut -d\"/\" -f 4,5|tr \"/\" \"@\").json\" ; done && cat *.json > {1}".format(subs, out))
+            "mkdir {2}/reposcan && cd {2}/reposcan && for repo in `cat {0}`; do trufflehog $repo --json --regex --cleanup | jq \".\" > \"$(echo $repo|cut -d\"/\" -f 4,5|tr \"/\" \"@\").json\" ; done && cat *.json > {1}".format(subs, out, path))
         line = 0
         if(os.path.exists(out)):
             with open(subs, encoding="ISO-8859-1") as f:
